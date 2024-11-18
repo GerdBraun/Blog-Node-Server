@@ -10,6 +10,7 @@ const resource = '/posts';
 
 // Request handler to handle all requests
 const requestHandler = async (req, res) => {
+  res.setHeader('Access-Control-Allow-Origin', '*');
   const { method, url } = req;
   if (url === resource) {
     if (method === 'GET') return await getPosts(req, res);
