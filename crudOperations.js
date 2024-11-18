@@ -36,7 +36,7 @@ export const getPosts = async (req, res) => {
       connectionString: process.env.PG_URI,
     });
     await client.connect();
-    const results = await client.query("SELECT * FROM posts ORDER BY id ASC;"); // Select from the right table
+    const results = await client.query("SELECT * FROM posts ORDER BY id DESC;"); // Select from the right table
     await client.end();
     res.statusCode = 200;
     res.setHeader("Content-Type", "application/json");
