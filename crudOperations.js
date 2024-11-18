@@ -18,9 +18,8 @@ export const createPost = async (req, res) => {
       [title, author, content, cover]
     );
     await client.end();
-    res.statusCode = 201;
-    res.setHeader("Content-Type", "application/json");
-    res.end(JSON.stringify(results.rows[0]));
+
+    res.json(results.rows[0]);
   } catch (error) {
     console.error("Error creating post: ", error);
     returnErrorWithMessage(res);
@@ -35,10 +34,6 @@ export const getPosts = async (req, res) => {
     await client.connect();
     const results = await client.query("SELECT * FROM posts ORDER BY id DESC;"); // Select from the right table
     await client.end();
-
-    // res.statusCode = 200;
-    // res.setHeader("Content-Type", "application/json");
-    // res.end(JSON.stringify(results.rows)); // Return the rows array
 
     res.json(results.rows);
   } catch (error) {
@@ -60,11 +55,6 @@ export const getPostById = async (req, res) => {
     await client.end();
     if (!results.rowCount)
       return returnErrorWithMessage(res, 404, "Post not found");
-
-    // res.statusCode = 200;
-    // res.setHeader("Content-Type", "application/json");
-    // res.end(JSON.stringify(results.rows[0]));
-
     res.json(results.rows[0]);
   } catch (error) {
     console.error("Error fetching post: ", error);
@@ -77,7 +67,6 @@ export const updatePost = async (req, res) => {
     if (!req.body) return returnErrorWithMessage(res, 400, "Body is required");
     const {id} = req.params;
     const { title, author, content, cover } = req.body;
-
     const client = new Client({
       connectionString: process.env.PG_URI,
     });
@@ -90,10 +79,6 @@ export const updatePost = async (req, res) => {
 
     if (!results.rowCount)
       return returnErrorWithMessage(res, 404, "Post not found");
-    
-    // res.statusCode = 200;
-    // res.setHeader("Content-Type", "application/json");
-    // res.end(JSON.stringify(results.rows[0]));
 
     res.json(results.rows[0]);
   } catch (error) {
@@ -115,10 +100,6 @@ export const deletePost = async (req, res) => {
       [id]
     );
     await client.end();
-
-    // res.statusCode = 200;
-    // res.setHeader("Content-Type", "application/json");
-    // res.end(JSON.stringify({ message: "Post deleted" }));
 
     return res.status(204).send("Post deleted");
   } catch (error) {
