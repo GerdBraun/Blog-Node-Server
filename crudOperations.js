@@ -10,16 +10,14 @@ import {
 
 export const createPost = async (req, res) => {
   try {
-    const body = await processBodyFromRequest(req); // This utility function gets the body for you
-    if (!body) return returnErrorWithMessage(res, 400, "Body is required");
-    const parsedBody = JSON.parse(body);
+    const { title, author, content, cover } = req.body;
     const client = new Client({
       connectionString: process.env.PG_URI,
     });
     await client.connect();
     const results = await client.query(
       "INSERT INTO posts (title, author, content, cover) VALUES ($1, $2, $3, $4) RETURNING *;",
-      [parsedBody.title, parsedBody.author, parsedBody.content, parsedBody.cover]
+      [title, author, content, cover]
     );
     await client.end();
     res.statusCode = 201;
@@ -30,6 +28,7 @@ export const createPost = async (req, res) => {
     returnErrorWithMessage(res);
   }
 };
+
 export const getPosts = async (req, res) => {
   try {
     const client = new Client({
@@ -49,7 +48,7 @@ export const getPosts = async (req, res) => {
 
 export const getPostById = async (req, res) => {
   try {
-    const id = getResourceId(req.url);
+    const {id} = req.params;
     const client = new Client({
       connectionString: process.env.PG_URI,
     });
@@ -71,10 +70,9 @@ export const getPostById = async (req, res) => {
 
 export const updatePost = async (req, res) => {
   try {
-    const id = getResourceId(req.url);
-    const body = await processBodyFromRequest(req); // This utility function gets the body for you
-    if (!body) return returnErrorWithMessage(res, 400, "Body is required");
-    const parsedBody = JSON.parse(body);
+    if (!req.body) return returnErrorWithMessage(res, 400, "Body is required");
+    const {id} = req.params;
+    const { title, author, content, cover } = req.body;
 
     const client = new Client({
       connectionString: process.env.PG_URI,
@@ -82,7 +80,7 @@ export const updatePost = async (req, res) => {
     await client.connect();
     const results = await client.query(
       "UPDATE posts SET title = $1, author = $2, content = $3, cover = $4 WHERE id = $5 RETURNING *;",
-      [parsedBody.title, parsedBody.author, parsedBody.content, parsedBody.cover, id]
+      [title, author, content, cover, id]
     );
     await client.end();
 
@@ -99,7 +97,7 @@ export const updatePost = async (req, res) => {
 
 export const deletePost = async (req, res) => {
   try {
-    const id = getResourceId(req.url);
+    const {id} = req.params;
 
     const client = new Client({
       connectionString: process.env.PG_URI,
