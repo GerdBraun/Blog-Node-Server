@@ -1,4 +1,6 @@
 import express from "express";
+import cors from "cors";
+
 // Import CRUD operations
 import {
   createPost,
@@ -12,6 +14,13 @@ import { regex, returnErrorWithMessage } from "./utils.js";
 
 const app = express();
 const port = 3000;
+
+const corsOptions = {
+  origin: '*',//(https://your-client-app.com)
+  optionsSuccessStatus: 200,
+};
+
+app.use(cors(corsOptions));
 
 app.use(express.json());
 

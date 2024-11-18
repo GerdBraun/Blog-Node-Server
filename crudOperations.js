@@ -3,8 +3,6 @@ const { Client } = pg;
 
 // Import utility functions
 import {
-  getResourceId,
-  processBodyFromRequest,
   returnErrorWithMessage,
 } from "./utils.js";
 
@@ -37,9 +35,12 @@ export const getPosts = async (req, res) => {
     await client.connect();
     const results = await client.query("SELECT * FROM posts ORDER BY id DESC;"); // Select from the right table
     await client.end();
-    res.statusCode = 200;
-    res.setHeader("Content-Type", "application/json");
-    res.end(JSON.stringify(results.rows)); // Return the rows array
+
+    // res.statusCode = 200;
+    // res.setHeader("Content-Type", "application/json");
+    // res.end(JSON.stringify(results.rows)); // Return the rows array
+
+    res.json(results.rows);
   } catch (error) {
     console.error("Error fetching posts: ", error);
     returnErrorWithMessage(res);
@@ -59,9 +60,12 @@ export const getPostById = async (req, res) => {
     await client.end();
     if (!results.rowCount)
       return returnErrorWithMessage(res, 404, "Post not found");
-    res.statusCode = 200;
-    res.setHeader("Content-Type", "application/json");
-    res.end(JSON.stringify(results.rows[0]));
+
+    // res.statusCode = 200;
+    // res.setHeader("Content-Type", "application/json");
+    // res.end(JSON.stringify(results.rows[0]));
+
+    res.json(results.rows[0]);
   } catch (error) {
     console.error("Error fetching post: ", error);
     returnErrorWithMessage(res);
@@ -86,9 +90,12 @@ export const updatePost = async (req, res) => {
 
     if (!results.rowCount)
       return returnErrorWithMessage(res, 404, "Post not found");
-    res.statusCode = 200;
-    res.setHeader("Content-Type", "application/json");
-    res.end(JSON.stringify(results.rows[0]));
+    
+    // res.statusCode = 200;
+    // res.setHeader("Content-Type", "application/json");
+    // res.end(JSON.stringify(results.rows[0]));
+
+    res.json(results.rows[0]);
   } catch (error) {
     console.error("Error updating post: ", error);
     returnErrorWithMessage(res);
@@ -109,9 +116,11 @@ export const deletePost = async (req, res) => {
     );
     await client.end();
 
-    res.statusCode = 200;
-    res.setHeader("Content-Type", "application/json");
-    res.end(JSON.stringify({ message: "Post deleted" }));
+    // res.statusCode = 200;
+    // res.setHeader("Content-Type", "application/json");
+    // res.end(JSON.stringify({ message: "Post deleted" }));
+
+    return res.status(204).send("Post deleted");
   } catch (error) {
     console.error("Error deleting post: ", error);
     returnErrorWithMessage(res);
