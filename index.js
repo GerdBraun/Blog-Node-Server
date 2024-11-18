@@ -9,8 +9,6 @@ import {
   getPostById,
   updatePost,
 } from "./crudOperations.js";
-// Import utility functions
-import { regex, returnErrorWithMessage } from "./utils.js";
 
 const app = express();
 const port = 3000;
