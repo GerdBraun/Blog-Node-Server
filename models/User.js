@@ -1,30 +1,24 @@
-// models/Post.js
+// models/User.js
 import { DataTypes } from 'sequelize'; // The library provides an object to help you  define types for your model attributes.
 import sequelize from '../db/index.js'; // See we needed this
  
-// Define the Post model
-
-const Post = sequelize.define('Post', {
+// Define the User model
+const User = sequelize.define('User', {
   // Model attributes are defined here
-  title: {
+  firstName: {
     type: DataTypes.STRING,
     allowNull: false
   },
-  author: {
+  lastName: {
     type: DataTypes.STRING,
     allowNull: false
   },
-  content: {
-    type: DataTypes.STRING,
-    allowNull: false
-  },
-  cover: {
+  email: {
     type: DataTypes.STRING,
     allowNull: false
   }
 });
-
  
-Post.sync(); // Check the block about Model synchronization
+User.sync(); // Check the block about Model synchronization
  
-export default Post;
+export default User;
