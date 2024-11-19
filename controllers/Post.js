@@ -1,10 +1,20 @@
 // controllers/Post.js
 // Import Post model
 import Post from "../models/Post.js";
+import User from "../models/User.js";
 
 export const getPosts = async (req, res) => {
   try {
-    const posts = await Post.findAll();
+    const posts = await Post.findAll({
+      include: [
+        {
+          model: User,
+          required: true,
+          attributes: ["id", "firstName", "lastName"],
+        },
+      ],
+      order: [["updatedAt", "DESC"]],
+    });
     res.json(posts);
   } catch (error) {
     res.status(500).json({ error: error.message });
@@ -32,7 +42,16 @@ export const getPostById = async (req, res) => {
     const {
       params: { id },
     } = req;
-    const post = await Post.findByPk(id);
+    const post = await Post.findOne({
+      where: [{ id: id }],
+      include: [
+        {
+          model: User,
+          required: true,
+          attributes: ["id", "firstName", "lastName"],
+        },
+      ],
+    });
     if (!post) return res.status(404).json({ error: "Post not found" });
     res.json(post);
   } catch (error) {
