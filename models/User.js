@@ -1,6 +1,7 @@
 // models/User.js
 import { DataTypes } from 'sequelize'; // The library provides an object to help you  define types for your model attributes.
 import sequelize from '../db/index.js'; // See we needed this
+import Post from './Post.js';
  
 // Define the User model
 const User = sequelize.define('User', {
@@ -18,6 +19,7 @@ const User = sequelize.define('User', {
     allowNull: false
   }
 });
+// User.hasMany(Post);
  
 User.sync(); // Check the block about Model synchronization
  
