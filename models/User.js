@@ -17,10 +17,15 @@ const User = sequelize.define('User', {
   email: {
     type: DataTypes.STRING,
     allowNull: false
+  },
+  avatar: {
+    type: DataTypes.STRING,
+    allowNull: true
   }
 });
 // User.hasMany(Post);
  
+// User.sync({force:true}); // Check the block about Model synchronization
 User.sync(); // Check the block about Model synchronization
  
 export default User;

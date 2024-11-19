@@ -10,7 +10,7 @@ export const getPosts = async (req, res) => {
         {
           model: User,
           required: true,
-          attributes: ["id", "firstName", "lastName"],
+          attributes: ["id", "firstName", "lastName", "avatar"],
         },
       ],
       order: [["updatedAt", "DESC"]],
@@ -48,7 +48,7 @@ export const getPostById = async (req, res) => {
         {
           model: User,
           required: true,
-          attributes: ["id", "firstName", "lastName"],
+          attributes: ["id", "firstName", "lastName", "avatar"],
         },
       ],
     });
