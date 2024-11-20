@@ -86,6 +86,7 @@ export const deletePost = async (req, res) => {
     const post = await Post.findByPk(id);
     if (!post) return res.status(404).json({ error: "Post not found" });
     await post.destroy();
+    res.json(post);
   } catch (error) {
     res.status(500).json({ error: error.message });
   }
