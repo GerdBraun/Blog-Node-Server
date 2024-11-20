@@ -30,18 +30,23 @@ app.use(cors(corsOptions));
 app.use(express.json());
 
 // posts
-app.get("/posts", getPosts);
-app.post("/posts", createPost);
-app.get("/posts/:id", getPostById);
-app.put("/posts/:id", updatePost);
-app.delete("/posts/:id", deletePost);
+app.route("/posts")
+.get(getPosts)
+.post(createPost);
+app.route("/posts/:id")
+.get(getPostById)
+.put(updatePost)
+.delete(deletePost);
 
 // users
-app.get("/users", getUsers);
-app.post("/users", createUser);
-app.get("/users/:id", getUserById);
-app.put("/users/:id", updateUser);
-app.delete("/users/:id", deleteUser);
+app.route("/users")
+.get(getUsers)
+.post(createUser);
+app.route("/users/:id")
+.get(getUserById)
+.put(updateUser)
+.delete(deleteUser);
+
 
 app.listen(port, () => {
   console.log(`API app listening on http://localhost:${port}`);
