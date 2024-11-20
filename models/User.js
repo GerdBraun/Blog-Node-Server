@@ -21,6 +21,11 @@ const User = sequelize.define('User', {
   avatar: {
     type: DataTypes.STRING,
     allowNull: true
+  },
+  isAdmin: {
+    type: DataTypes.BOOLEAN,
+    allowNull: true,
+    defaultValue: false
   }
 });
 // User.hasMany(Post);

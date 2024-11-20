@@ -17,7 +17,8 @@ const Post = sequelize.define("Post", {
   },
   authorId: {
     type: DataTypes.INTEGER,
-    allowNull: true,
+    allowNull: false,
+    defaultValue: 1
   },
   content: {
     type: DataTypes.STRING,
