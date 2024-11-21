@@ -13,7 +13,7 @@ Post.belongsTo(User, { foreignKey: "authorId" });
 User.hasMany(Post, { foreignKey: "authorId" })
 
 try {
-    await sequelize.sync({ force: true });
+    await sequelize.sync({ force: false });
     console.log("Database is ready");
   } catch (error) {
     console.error("\x1b[31m%s\x1b[0m", error);
