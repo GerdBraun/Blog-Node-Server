@@ -1,11 +1,11 @@
 // controllers/users.js
-import {sequelize, User} from "../db/index.js";
+import {User} from "../db/index.js";
 import {Post} from "../db/index.js";
 
 export const getUsers = async (req, res) => {
   try {
     const users = await User.findAll();
-    res.json(users);
+    res.status(200).json(users);
   } catch (error) {
     res.status(500).json({ error: error.message });
   }
@@ -21,7 +21,7 @@ export const createUser = async (req, res) => {
         .status(400)
         .json({ error: "firstName, lastName, and email are required" });
     const user = await User.create(req.body);
-    res.json(user);
+    res.status(201).json(user);
   } catch (error) {
     res.status(500).json({ error: error.message });
   }
@@ -44,7 +44,7 @@ export const getUserById = async (req, res) => {
         ]
     });
     if (!user) return res.status(404).json({ error: "User not found" });
-    res.json(user);
+    res.status(200).json(user);
   } catch (error) {
     res.status(500).json({ error: error.message });
   }
@@ -63,7 +63,7 @@ export const updateUser = async (req, res) => {
     const user = await User.findByPk(id);
     if (!user) return res.status(404).json({ error: "User not found" });
     await user.update(req.body);
-    res.json(user);
+    res.status(201).json(user);
   } catch (error) {
     res.status(500).json({ error: error.message });
   }
@@ -77,7 +77,7 @@ export const deleteUser = async (req, res) => {
     const user = await User.findByPk(id);
     if (!user) return res.status(404).json({ error: "User not found" });
     await user.destroy();
-    res.json(user);
+    res.status(200).json(user);
   } catch (error) {
     res.status(500).json({ error: error.message });
   }

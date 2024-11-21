@@ -2,20 +2,6 @@ import express from "express";
 import cors from "cors";
 
 // Import CRUD operations
-import {
-  createPost,
-  deletePost,
-  getPosts,
-  getPostById,
-  updatePost,
-} from "./controllers/posts.js";
-import {
-  createUser,
-  deleteUser,
-  getUserById,
-  getUsers,
-  updateUser,
-} from "./controllers/users.js";
 import userRouter from "./routes/users.js";
 import postRouter from "./routes/posts.js";
 

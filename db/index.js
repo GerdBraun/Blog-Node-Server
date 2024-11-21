@@ -13,12 +13,12 @@ Post.belongsTo(User, { foreignKey: "authorId" });
 User.hasMany(Post, { foreignKey: "authorId" })
 
 try {
-    await sequelize.sync({ force: false });
+    await sequelize.sync({ force: true });
     console.log("Database is ready");
   } catch (error) {
     console.error("\x1b[31m%s\x1b[0m", error);
   }
   
-// Export the instance so we can use it in other files
+// Export the instances so we can use them in other files
 export {sequelize, Post, User};
 
