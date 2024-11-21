@@ -8,14 +8,16 @@ import {
   getPosts,
   getPostById,
   updatePost,
-} from "./controllers/Post.js";
+} from "./controllers/posts.js";
 import {
   createUser,
   deleteUser,
   getUserById,
   getUsers,
   updateUser,
-} from "./controllers/User.js";
+} from "./controllers/users.js";
+import userRouter from "./routes/users.js";
+import postRouter from "./routes/posts.js";
 
 const app = express();
 const port = 3000;
@@ -29,24 +31,8 @@ app.use(cors(corsOptions));
 
 app.use(express.json());
 
-// posts
-app.route("/posts")
-.get(getPosts)
-.post(createPost);
-app.route("/posts/:id")
-.get(getPostById)
-.put(updatePost)
-.delete(deletePost);
-
-// users
-app.route("/users")
-.get(getUsers)
-.post(createUser);
-app.route("/users/:id")
-.get(getUserById)
-.put(updateUser)
-.delete(deleteUser);
-
+app.use("/posts", postRouter);
+app.use("/users", userRouter);
 
 app.listen(port, () => {
   console.log(`API app listening on http://localhost:${port}`);

@@ -1,4 +1,4 @@
-// controllers/Post.js
+// controllers/posts.js
 import { Post, sequelize } from "../db/index.js";
 import { User } from "../db/index.js";
 
