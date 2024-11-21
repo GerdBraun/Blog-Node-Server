@@ -1,7 +1,6 @@
 // controllers/Post.js
-// Import Post model
-import Post from "../models/Post.js";
-import User from "../models/User.js";
+import { Post, sequelize } from "../db/index.js";
+import { User } from "../db/index.js";
 
 export const getPosts = async (req, res) => {
   try {

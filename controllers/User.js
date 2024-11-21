@@ -1,6 +1,6 @@
 // controllers/User.js
-// Import our User model
-import User from "../models/User.js";
+import {sequelize, User} from "../db/index.js";
+import {Post} from "../db/index.js";
 
 export const getUsers = async (req, res) => {
   try {
@@ -32,7 +32,17 @@ export const getUserById = async (req, res) => {
     const {
       params: { id },
     } = req;
-    const user = await User.findByPk(id);
+    const user = await User.findByPk(id,{
+        include: [
+            {
+                model:Post,
+                required: true,
+                attributes: [
+                    "id","title","updatedAt"
+                ],
+            }
+        ]
+    });
     if (!user) return res.status(404).json({ error: "User not found" });
     res.json(user);
   } catch (error) {
