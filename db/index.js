@@ -19,6 +19,6 @@ try {
     console.error("\x1b[31m%s\x1b[0m", error);
   }
   
-// Export the instance so we can use it in other files
+// Export the instances so we can use them in other files
 export {sequelize, Post, User};
 
