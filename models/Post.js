@@ -19,7 +19,7 @@ export default (sequelize) => {
       defaultValue: 1,
     },
     content: {
-      type: DataTypes.STRING,
+      type: DataTypes.TEXT,
       allowNull: false,
     },
     cover: {

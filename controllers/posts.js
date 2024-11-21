@@ -1,5 +1,5 @@
 // controllers/posts.js
-import { Post, sequelize } from "../db/index.js";
+import { Post } from "../db/index.js";
 import { User } from "../db/index.js";
 
 export const getPosts = async (req, res) => {
@@ -14,7 +14,7 @@ export const getPosts = async (req, res) => {
       ],
       order: [["updatedAt", "DESC"]],
     });
-    res.json(posts);
+    res.status(200).json(posts);
   } catch (error) {
     res.status(500).json({ error: error.message });
   }
@@ -30,7 +30,7 @@ export const createPost = async (req, res) => {
         .status(400)
         .json({ error: "title, author, content and cover are required" });
     const post = await Post.create(req.body);
-    res.json(post);
+    res.status(201).json(post);
   } catch (error) {
     res.status(500).json({ error: error.message });
   }
@@ -52,7 +52,7 @@ export const getPostById = async (req, res) => {
       ],
     });
     if (!post) return res.status(404).json({ error: "Post not found" });
-    res.json(post);
+    res.status(200).json(post);
   } catch (error) {
     res.status(500).json({ error: error.message });
   }
@@ -71,7 +71,7 @@ export const updatePost = async (req, res) => {
     const post = await Post.findByPk(id);
     if (!post) return res.status(404).json({ error: "Post not found" });
     await post.update(req.body);
-    res.json(post);
+    res.status(201).json(post);
   } catch (error) {
     res.status(500).json({ error: error.message });
   }
@@ -85,7 +85,7 @@ export const deletePost = async (req, res) => {
     const post = await Post.findByPk(id);
     if (!post) return res.status(404).json({ error: "Post not found" });
     await post.destroy();
-    res.json(post);
+    res.status(200).json(post);
   } catch (error) {
     res.status(500).json({ error: error.message });
   }
