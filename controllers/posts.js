@@ -21,11 +21,6 @@ export const getPosts = async (req, res) => {
           required: false,
           attributes: ["id","label"],
         },
-        // {
-        //   model: BridgePostCategory,
-        //   required: false,
-        //   attributes: ["id", "CategoryId"],
-        // },
       ],
 
       order: [["updatedAt", "DESC"]],
@@ -66,9 +61,9 @@ export const getPostById = async (req, res) => {
           attributes: ["id", "firstName", "lastName", "avatar"],
         },
         {
-          model: BridgePostCategory,
+          model: Category,
           required: false,
-          attributes: ["CategoryId"],
+          attributes: ["id","label"],
         },
       ],
     });
