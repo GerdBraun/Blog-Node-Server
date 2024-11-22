@@ -75,6 +75,7 @@ const seedDB = async () => {
       authorId: 2,
       content: "content",
       cover: "https://placehold.co/800x450",
+      Post:[1,2]
     },
   ];
   const categories = [

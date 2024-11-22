@@ -19,19 +19,13 @@ export const getPosts = async (req, res) => {
         {
           model: Category,
           required: false,
-          attributes: ["id"],
+          attributes: ["id","label"],
         },
-        {
-          model: BridgePostCategory,
-          required: false,
-          attributes: ["id", "CategoryId"],
-        },
-        /*
-        SELECT c.*
-        FROM "Categories" c
-        JOIN "BridgePostCategories" bpc ON c.id = bpc."CategoryId"
-        WHERE bpc."PostId" = 1
-        */
+        // {
+        //   model: BridgePostCategory,
+        //   required: false,
+        //   attributes: ["id", "CategoryId"],
+        // },
       ],
 
       order: [["updatedAt", "DESC"]],

@@ -1,16 +1,21 @@
 import { DataTypes } from "sequelize";
+import {Post,Category} from "../db/index.js";
 
 export default (sequelize) => {
   const BridgePostCategory = sequelize.define("BridgePostCategory", {
     PostId: {
       type: DataTypes.INTEGER,
-      allowNull: false,
-      defaultValue: 1,
+      references: {
+        model: Post,
+        key: 'id',
+      },
     },
     CategoryId: {
       type: DataTypes.INTEGER,
-      allowNull: false,
-      defaultValue: 1,
+      references: {
+        model: Category,
+        key: 'id',
+      },
     },
   });
   return BridgePostCategory;
