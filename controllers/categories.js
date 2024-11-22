@@ -1,18 +1,21 @@
 // controllers/users.js
-import {User} from "../db/index.js";
-import {Post} from "../db/index.js";
-import {Category} from "../db/index.js";
 
-export const getUsers = async (req, res) => {
+// TODO: refactor to using bridge table for categories
+
+import {Category} from "../db/index.js";
+import {Post} from "../db/index.js";
+import {User} from "../db/index.js";
+
+export const getCategories = async (req, res) => {
   try {
-    const users = await User.findAll();
+    const users = await Category.findAll();
     res.status(200).json(users);
   } catch (error) {
     res.status(500).json({ error: error.message });
   }
 };
 
-export const createUser = async (req, res) => {
+export const createCategory = async (req, res) => {
   try {
     const {
       body: { firstName, lastName, email },
@@ -21,44 +24,37 @@ export const createUser = async (req, res) => {
       return res
         .status(400)
         .json({ error: "firstName, lastName, and email are required" });
-    const user = await User.create(req.body);
+    const category = await Category.create(req.body);
     res.status(201).json(user);
   } catch (error) {
     res.status(500).json({ error: error.message });
   }
 };
 
-export const getUserById = async (req, res) => {
+export const getCategoryById = async (req, res) => {
   try {
     const {
       params: { id },
     } = req;
-    const user = await User.findByPk(id,{
+    const category = await Category.findByPk(id,{
         include: [
             {
                 model:Post,
-                required: false,
+                required: true,
                 attributes: [
                     "id","title","updatedAt"
-                ],
-            },
-            {
-                model:Category,
-                required: false,
-                attributes: [
-                    "id","label"
                 ],
             }
         ]
     });
-    if (!user) return res.status(404).json({ error: "User not found" });
+    if (!category) return res.status(404).json({ error: "Category not found" });
     res.status(200).json(user);
   } catch (error) {
     res.status(500).json({ error: error.message });
   }
 };
 
-export const updateUser = async (req, res) => {
+export const updateCategory = async (req, res) => {
   try {
     const {
       body: { firstName, lastName, email },
@@ -68,23 +64,23 @@ export const updateUser = async (req, res) => {
       return res
         .status(400)
         .json({ error: "firstName, lastName, and email are required" });
-    const user = await User.findByPk(id);
-    if (!user) return res.status(404).json({ error: "User not found" });
-    await user.update(req.body);
+    const category = await Category.findByPk(id);
+    if (!category) return res.status(404).json({ error: "Category not found" });
+    await category.update(req.body);
     res.status(201).json(user);
   } catch (error) {
     res.status(500).json({ error: error.message });
   }
 };
 
-export const deleteUser = async (req, res) => {
+export const deleteCategory = async (req, res) => {
   try {
     const {
       params: { id },
     } = req;
-    const user = await User.findByPk(id);
-    if (!user) return res.status(404).json({ error: "User not found" });
-    await user.destroy();
+    const category = await Category.findByPk(id);
+    if (!category) return res.status(404).json({ error: "Category not found" });
+    await category.destroy();
     res.status(200).json(user);
   } catch (error) {
     res.status(500).json({ error: error.message });
