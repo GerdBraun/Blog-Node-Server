@@ -26,7 +26,7 @@ Category.belongsToMany(Post,{through: BridgePostCategory})
 Post.belongsToMany(Category,{through: BridgePostCategory})
 
 try {
-  await sequelize.sync({ force: false });
+  await sequelize.sync({ force: false, logging:false });
   console.log("Database is ready");
 } catch (error) {
   console.error("\x1b[31m%s\x1b[0m", error);
