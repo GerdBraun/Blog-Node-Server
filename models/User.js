@@ -1,6 +1,6 @@
 // models/User.js
 import { DataTypes } from "sequelize"; // The library provides an object to help you  define types for your model attributes.
-import bcrypt from 'bcrypt';
+import bcrypt from "bcrypt";
 
 // Define the User model
 export default (sequelize) => {
@@ -61,5 +61,6 @@ export default (sequelize) => {
     return await bcrypt.compareSync(password, hash);
   };
 
+  // TODO: see here: https://plainenglish.io/blog/password-encryption-using-bcrypt-sequelize-and-nodejs-fb9198634ee7#usage-with-sequelize-model
   return User;
 };

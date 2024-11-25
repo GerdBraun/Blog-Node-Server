@@ -1,6 +1,11 @@
 // controllers/posts.js
-import { Post } from "../db/index.js";
-import { User } from "../db/index.js";
+import {
+  sequelize,
+  Post,
+  User,
+  Category,
+  BridgePostCategory,
+} from "../db/index.js";
 
 export const getPosts = async (req, res) => {
   try {
@@ -11,7 +16,13 @@ export const getPosts = async (req, res) => {
           required: true,
           attributes: ["id", "firstName", "lastName", "avatar"],
         },
+        {
+          model: Category,
+          required: false,
+          attributes: ["id","label"],
+        },
       ],
+
       order: [["updatedAt", "DESC"]],
     });
     res.status(200).json(posts);
@@ -48,6 +59,11 @@ export const getPostById = async (req, res) => {
           model: User,
           required: true,
           attributes: ["id", "firstName", "lastName", "avatar"],
+        },
+        {
+          model: Category,
+          required: false,
+          attributes: ["id","label"],
         },
       ],
     });
