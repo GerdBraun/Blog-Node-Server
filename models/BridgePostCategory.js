@@ -1,5 +1,5 @@
 import { DataTypes } from "sequelize";
-import {Post,Category} from "../db/index.js";
+import { Post, Category } from "../db/index.js";
 
 export default (sequelize) => {
   const BridgePostCategory = sequelize.define("BridgePostCategory", {
@@ -7,14 +7,14 @@ export default (sequelize) => {
       type: DataTypes.INTEGER,
       references: {
         model: Post,
-        key: 'id',
+        key: "id",
       },
     },
     CategoryId: {
       type: DataTypes.INTEGER,
       references: {
         model: Category,
-        key: 'id',
+        key: "id",
       },
     },
   });
