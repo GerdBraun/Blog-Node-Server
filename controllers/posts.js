@@ -6,6 +6,7 @@ import {
   Category,
   BridgePostCategory,
 } from "../db/index.js";
+import multer from "multer";
 
 export const getPosts = async (req, res) => {
   try {
@@ -34,9 +35,13 @@ export const getPosts = async (req, res) => {
 export const createPost = async (req, res) => {
   try {
     const {
-      body: { title, author, content, cover },
+      body: { title, author, content },
     } = req;
-    if (!title || !author || !content || !cover)
+
+    const timestamp = new Date().getTime();
+    req.body.cover = `http://localhost:3000/${req.file.filename}?t=${timestamp}`;
+
+    if (!title || !author || !content)
       return res
         .status(400)
         .json({ error: "title, author, content and cover are required" });
@@ -77,10 +82,14 @@ export const getPostById = async (req, res) => {
 export const updatePost = async (req, res) => {
   try {
     const {
-      body: { title, author, content, cover },
+      body: { title, author, content },
       params: { id },
     } = req;
-    if (!title || !author || !content || !cover)
+
+    const timestamp = new Date().getTime();
+    req.body.cover = `http://localhost:3000/${req.file.filename}?t=${timestamp}`;
+
+    if (!title || !author || !content)
       return res
         .status(400)
         .json({ error: "title, author, content and cover are required" });
@@ -115,9 +124,9 @@ const setCategories = async (req, res) => {
       params: { id },
     } = req;
 
-    if(categories){
+    if (categories) {
       await BridgePostCategory.destroy({ where: { PostId: id } });
-  
+
       const categoriesToInsert = categories.map((cat) => {
         return { PostId: id, CategoryId: cat };
       });
