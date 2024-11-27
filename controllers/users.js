@@ -27,7 +27,10 @@ export const getUsers = async (req, res) => {
           model: ShopCart,
           required: false,
           attributes: ["amount"],
-          include: [{ model: ShopProduct, attributes: ["id", "name"] }],
+          include: [
+            { model: ShopProduct, attributes: ["id", "name"] },
+            { model: User, attributes: ["id", "label"],attributes: ["id", "firstName", "lastName"],},
+          ],
         },
       ],
     });

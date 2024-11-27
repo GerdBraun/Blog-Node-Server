@@ -41,6 +41,7 @@ ShopProduct.belongsToMany(User, { through: ShopCart });
 
 ShopCart.belongsTo(User,{foreignKey:"id"})
 ShopCart.hasOne(ShopProduct,{foreignKey:"id"})
+ShopCart.hasOne(User,{foreignKey:"id"})
 User.hasMany(ShopCart,{foreignKey:"UserId"})
 
 
