@@ -6,7 +6,7 @@ import { User,ShopProduct } from "../db/index.js";
 export default (sequelize) => {
   const ShopCart = sequelize.define("ShopCart", {
     // Model attributes are defined here
-    ProductId: {
+    ShopProductId: {
       type: DataTypes.INTEGER,
       references: {
         model: ShopProduct,

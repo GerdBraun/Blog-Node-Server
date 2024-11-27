@@ -36,12 +36,12 @@ Category.belongsToMany(Post, { through: BridgePostCategory });
 Post.belongsToMany(Category, { through: BridgePostCategory });
 
 // shop
-User.hasOne(ShopCart, { foreignKey: "userId" });
-ShopCart.belongsTo(User, { foreignKey: "userId" });
-// ShopCart.hasMany(ShopProduct, { foreignKey: "productId" });
-ShopProduct.hasMany(ShopCart, { foreignKey: "productId" });
-ShopCategory.hasMany(ShopProduct, { foreignKey: "categoryId" })
-// ShopProduct.hasOne(ShopCategory, { foreignKey: "categoryId" })
+User.belongsToMany(ShopProduct, { through: ShopCart });
+ShopProduct.belongsToMany(User, { through: ShopCart });
+
+ShopCart.belongsTo(User,{foreignKey:"id"})
+ShopCart.hasOne(ShopProduct,{foreignKey:"id"})
+User.hasMany(ShopCart,{foreignKey:"UserId"})
 
 
 try {

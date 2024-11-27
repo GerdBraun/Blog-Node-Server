@@ -151,12 +151,17 @@ const seedDB = async () => {
   const shopCarts = [
     {
       UserId: 1,
-      ProductId: 1,
+      ShopProductId: 1,
       amount: 2,
     },
     {
       UserId: 1,
-      ProductId: 2,
+      ShopProductId: 2,
+      amount: 3,
+    },
+    {
+      UserId: 2,
+      ShopProductId: 2,
       amount: 3,
     },
   ];
