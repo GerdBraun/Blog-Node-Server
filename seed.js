@@ -6,7 +6,7 @@ import {
   BridgePostCategory,
   ShopProduct,
   ShopCategory,
-  ShopCart,
+  BridgeShopCartProduct,
 } from "./db/index.js";
 
 const seedDB = async () => {
@@ -148,7 +148,7 @@ const seedDB = async () => {
     },
   ];
 
-  const shopCarts = [
+  const BridgeShopCartProducts = [
     {
       UserId: 1,
       ShopProductId: 1,
@@ -179,7 +179,7 @@ const seedDB = async () => {
   await ShopProduct.bulkCreate(shopProducts, {
     individualHooks: true,
   });
-  await ShopCart.bulkCreate(shopCarts, {
+  await BridgeShopCartProduct.bulkCreate(BridgeShopCartProducts, {
     individualHooks: true,
   });
 };

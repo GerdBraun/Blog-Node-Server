@@ -4,7 +4,7 @@ import { User,ShopProduct } from "../db/index.js";
 
 // Define the Post model
 export default (sequelize) => {
-  const ShopCart = sequelize.define("ShopCart", {
+  const BridgeShopCartProduct = sequelize.define("BridgeShopCartProduct", {
     // Model attributes are defined here
     ShopProductId: {
       type: DataTypes.INTEGER,
@@ -25,5 +25,5 @@ export default (sequelize) => {
       allowNull: false,
     },
   });
-  return ShopCart;
+  return BridgeShopCartProduct;
 };

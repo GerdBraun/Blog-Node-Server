@@ -5,7 +5,7 @@ import {
   Post,
   Category,
   ShopProduct,
-  ShopCart,
+  BridgeShopCartProduct,
   sequelize,
 } from "../db/index.js";
 
@@ -24,7 +24,7 @@ export const getUsers = async (req, res) => {
           attributes: ["id", "label"],
         },
         {
-          model: ShopCart,
+          model: BridgeShopCartProduct,
           required: false,
           attributes: ["amount"],
           include: [
@@ -74,7 +74,7 @@ export const getUserById = async (req, res) => {
           attributes: ["id", "label"],
         },
         {
-          model: ShopCart,
+          model: BridgeShopCartProduct,
           required: false,
           attributes: ["amount"],
           include: [{ model: ShopProduct, attributes: ["id", "name"] }],

@@ -6,7 +6,7 @@ import PostModel from "../models/Post.js";
 import CategoryModel from "../models/Category.js";
 import BridgePostCategoryModel from "../models/BridgePostCategory.js";
 import ShopProductModel from "../models/ShopProduct.js";
-import ShopCartModel from "../models/ShopCart.js";
+import BridgeShopCartProductModel from "../models/BridgeShopCartProduct.js";
 import ShopCategoryModel from "../models/ShopCategory.js";
 // Create a new instance of Sequelize with the connection string
 const sequelize = new Sequelize(process.env.PG_URI);
@@ -20,7 +20,7 @@ const BridgePostCategory = BridgePostCategoryModel(sequelize);
 // shop
 const ShopCategory = ShopCategoryModel(sequelize);
 const ShopProduct = ShopProductModel(sequelize);
-const ShopCart = ShopCartModel(sequelize);
+const BridgeShopCartProduct = BridgeShopCartProductModel(sequelize);
 
 // posts
 User.hasMany(Post, { foreignKey: "authorId" });
@@ -36,13 +36,13 @@ Category.belongsToMany(Post, { through: BridgePostCategory });
 Post.belongsToMany(Category, { through: BridgePostCategory });
 
 // shop
-User.belongsToMany(ShopProduct, { through: ShopCart });
-ShopProduct.belongsToMany(User, { through: ShopCart });
+User.belongsToMany(ShopProduct, { through: BridgeShopCartProduct });
+ShopProduct.belongsToMany(User, { through: BridgeShopCartProduct });
 
-ShopCart.belongsTo(User,{foreignKey:"id"})
-ShopCart.hasOne(ShopProduct,{foreignKey:"id"})
-ShopCart.hasOne(User,{foreignKey:"id"})
-User.hasMany(ShopCart,{foreignKey:"UserId"})
+BridgeShopCartProduct.belongsTo(User,{foreignKey:"id"})
+BridgeShopCartProduct.hasOne(ShopProduct,{foreignKey:"id"})
+BridgeShopCartProduct.hasOne(User,{foreignKey:"id"})
+User.hasMany(BridgeShopCartProduct,{foreignKey:"UserId"})
 
 
 try {
@@ -61,5 +61,5 @@ export {
   BridgePostCategory,
   ShopProduct,
   ShopCategory,
-  ShopCart,
+  BridgeShopCartProduct,
 };
