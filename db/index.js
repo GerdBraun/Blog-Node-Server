@@ -6,8 +6,9 @@ import PostModel from "../models/Post.js";
 import CategoryModel from "../models/Category.js";
 import BridgePostCategoryModel from "../models/BridgePostCategory.js";
 import ShopProductModel from "../models/ShopProduct.js";
-import BridgeShopCartProductModel from "../models/BridgeShopCartProduct.js";
+import ShopCartModel from "../models/ShopCart.js";
 import ShopCategoryModel from "../models/ShopCategory.js";
+import BridgeShopCartProductModel from "../models/BridgeShopCartProduct.js";
 // Create a new instance of Sequelize with the connection string
 const sequelize = new Sequelize(process.env.PG_URI);
 
@@ -20,6 +21,7 @@ const BridgePostCategory = BridgePostCategoryModel(sequelize);
 // shop
 const ShopCategory = ShopCategoryModel(sequelize);
 const ShopProduct = ShopProductModel(sequelize);
+const ShopCart = ShopCartModel(sequelize);
 const BridgeShopCartProduct = BridgeShopCartProductModel(sequelize);
 
 // posts
@@ -39,11 +41,16 @@ Post.belongsToMany(Category, { through: BridgePostCategory });
 User.belongsToMany(ShopProduct, { through: BridgeShopCartProduct });
 ShopProduct.belongsToMany(User, { through: BridgeShopCartProduct });
 
-BridgeShopCartProduct.belongsTo(User,{foreignKey:"id"})
-BridgeShopCartProduct.hasOne(ShopProduct,{foreignKey:"id"})
-BridgeShopCartProduct.hasOne(User,{foreignKey:"id"})
-User.hasMany(BridgeShopCartProduct,{foreignKey:"UserId"})
+BridgeShopCartProduct.belongsTo(User, { foreignKey: "id" });
+BridgeShopCartProduct.hasOne(ShopProduct, { foreignKey: "id" });
+BridgeShopCartProduct.hasOne(ShopCart, { foreignKey: "id" });
+// User.hasMany(BridgeShopCartProduct, { foreignKey: "UserId" });
 
+User.hasOne(ShopCart, { foreignKey: "UserId" });
+ShopCart.belongsTo(User, { foreignKey: "UserId" });
+ShopCart.hasMany(BridgeShopCartProduct, { foreignKey: "ShopCartId" } )
+ShopCart.belongsToMany(ShopProduct,{ through: BridgeShopCartProduct } )
+ShopProduct.belongsToMany(ShopCart,{ through: BridgeShopCartProduct } )
 
 try {
   await sequelize.sync({ force: false, logging: false });
@@ -62,4 +69,5 @@ export {
   ShopProduct,
   ShopCategory,
   BridgeShopCartProduct,
+  ShopCart,
 };

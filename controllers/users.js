@@ -5,6 +5,7 @@ import {
   Post,
   Category,
   ShopProduct,
+  ShopCart,
   BridgeShopCartProduct,
   sequelize,
 } from "../db/index.js";
@@ -24,12 +25,20 @@ export const getUsers = async (req, res) => {
           attributes: ["id", "label"],
         },
         {
-          model: BridgeShopCartProduct,
+          model: ShopCart,
           required: false,
-          attributes: ["amount"],
+          attributes: ["id"],
           include: [
-            { model: ShopProduct, attributes: ["id", "name"] },
-            { model: User, attributes: ["id", "label"],attributes: ["id", "firstName", "lastName"],},
+            {
+              model: BridgeShopCartProduct,
+              attributes: ["amount"],
+              include: [
+                {
+                  model: ShopProduct,
+                  attributes: ["id", "name", "price"],
+                },
+              ],
+            },
           ],
         },
       ],
@@ -74,10 +83,21 @@ export const getUserById = async (req, res) => {
           attributes: ["id", "label"],
         },
         {
-          model: BridgeShopCartProduct,
+          model: ShopCart,
           required: false,
-          attributes: ["amount"],
-          include: [{ model: ShopProduct, attributes: ["id", "name"] }],
+          attributes: ["id"],
+          include: [
+            {
+              model: BridgeShopCartProduct,
+              attributes: ["amount"],
+              include: [
+                {
+                  model: ShopProduct,
+                  attributes: ["id", "name", "price"],
+                },
+              ],
+            },
+          ],
         },
       ],
     });

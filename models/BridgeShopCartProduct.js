@@ -1,8 +1,7 @@
-// models/Post.js
 import { DataTypes } from "sequelize"; // The library provides an object to help you  define types for your model attributes.
-import { User,ShopProduct } from "../db/index.js";
+import { User, ShopProduct, ShopCart } from "../db/index.js";
 
-// Define the Post model
+// Define the  model
 export default (sequelize) => {
   const BridgeShopCartProduct = sequelize.define("BridgeShopCartProduct", {
     // Model attributes are defined here
@@ -13,10 +12,10 @@ export default (sequelize) => {
         key: "id",
       },
     },
-    UserId: {
+    ShopCartId: {
       type: DataTypes.INTEGER,
       references: {
-        model: User,
+        model: ShopCart,
         key: "id",
       },
     },

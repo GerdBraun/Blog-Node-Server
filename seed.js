@@ -6,6 +6,7 @@ import {
   BridgePostCategory,
   ShopProduct,
   ShopCategory,
+  ShopCart,
   BridgeShopCartProduct,
 } from "./db/index.js";
 
@@ -128,39 +129,66 @@ const seedDB = async () => {
 
   const shopCategories = [
     {
-      name:"category 1"
+      name: "category 1",
     },
     {
-      name:"category 2"
-    }
-  ]
+      name: "category 2",
+    },
+  ];
 
   const shopProducts = [
     {
       name: "product 1",
+      description:"Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt",
       price: 12.34,
-      categoryId:1
+      categoryId: 1,
+      image: "https://placehold.co/800x450",
     },
     {
       name: "product 2",
+      description:"Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt",
       price: 5.67,
-      categoryId:2
+      categoryId: 2,
+      image: "https://placehold.co/800x450",
+    },
+    {
+      name: "product 3",
+      description:"Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt",
+      price: 8.90,
+      categoryId: 1,
+      image: "https://placehold.co/800x450",
+    },
+    {
+      name: "product 4",
+      description:"Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt",
+      price: 1.23,
+      categoryId: 2,
+      image: "https://placehold.co/800x450",
+    },
+  ];
+
+  const shopCarts = [
+    {
+      UserId: 1,
+    },
+    {
+      UserId: 2,
     },
   ];
 
   const BridgeShopCartProducts = [
     {
-      UserId: 1,
+      ShopCartId: 1,
       ShopProductId: 1,
       amount: 2,
     },
     {
-      UserId: 1,
+      ShopCartId: 1,
       ShopProductId: 2,
       amount: 3,
     },
     {
-      UserId: 2,
+      ShopCartId: 2,
       ShopProductId: 2,
       amount: 3,
     },
@@ -177,6 +205,9 @@ const seedDB = async () => {
     individualHooks: true,
   });
   await ShopProduct.bulkCreate(shopProducts, {
+    individualHooks: true,
+  });
+  await ShopCart.bulkCreate(shopCarts, {
     individualHooks: true,
   });
   await BridgeShopCartProduct.bulkCreate(BridgeShopCartProducts, {
