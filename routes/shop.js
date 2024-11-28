@@ -7,12 +7,12 @@ import express from "express";
 //   updateCategory,
 // } from "../controllers/shop.js";
 
-import { getCarts, getCartById } from "../controllers/carts.js";
+import { getCarts, getCartById, createCart } from "../controllers/carts.js";
 import { getProducts } from "../controllers/products.js";
 
 const shopRouter = express.Router();
 
-shopRouter.route("/carts").get(getCarts);
+shopRouter.route("/carts").get(getCarts).post(createCart);
 shopRouter.route("/carts/:id").get(getCartById);
 shopRouter.route("/products").get(getProducts);
 // shopRouter.route("/").get(getCategories).post(createCategory);
