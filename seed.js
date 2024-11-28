@@ -168,30 +168,30 @@ const seedDB = async () => {
   ];
 
   const shopCarts = [
-    {
-      UserId: 1,
-    },
-    {
-      UserId: 2,
-    },
+    // {
+    //   UserId: 1,
+    // },
+    // {
+    //   UserId: 2,
+    // },
   ];
 
   const BridgeShopCartProducts = [
-    {
-      ShopCartId: 1,
-      ShopProductId: 1,
-      amount: 2,
-    },
-    {
-      ShopCartId: 1,
-      ShopProductId: 2,
-      amount: 3,
-    },
-    {
-      ShopCartId: 2,
-      ShopProductId: 2,
-      amount: 3,
-    },
+    // {
+    //   ShopCartId: 1,
+    //   ShopProductId: 1,
+    //   amount: 2,
+    // },
+    // {
+    //   ShopCartId: 1,
+    //   ShopProductId: 2,
+    //   amount: 3,
+    // },
+    // {
+    //   ShopCartId: 2,
+    //   ShopProductId: 2,
+    //   amount: 3,
+    // },
   ];
 
   await User.bulkCreate(users, { individualHooks: true });

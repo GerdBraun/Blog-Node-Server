@@ -69,19 +69,42 @@ export const createCart = async (req, res) => {
     const {
       body: { userId, productId, amount },
     } = req;
-    console.log(req.body);
 
     // get or create the user's cart
     const cart = await getCreateCartByUserId(userId);
-    console.log("cartId", cart.id);
 
-    // add the prod
-    const bscp = await BridgeShopCartProduct.create({
+    const prodToSave = {
       ShopProductId: productId,
       ShopCartId: cart.id,
       amount: amount,
-      id_User_id:userId
+      id: userId,
+    };
+
+    // find existing bscp
+    const existingBSCP = await BridgeShopCartProduct.findOne({
+      where: {
+        ShopProductId: productId,
+        ShopCartId: cart.id,
+      },
     });
+
+    if (existingBSCP) {
+      // TODO: add amount
+      const bscp = await BridgeShopCartProduct.update(
+        {
+          amount: amount + existingBSCP.amount,
+        },
+        {
+          where: {
+            ShopProductId: productId,
+            ShopCartId: cart.id,
+          },
+        }
+      );
+    } else {
+      // or add the prod
+      const bscp = await BridgeShopCartProduct.create(prodToSave);
+    }
 
     // return the cart
     res.status(201).json(cart);
@@ -89,6 +112,10 @@ export const createCart = async (req, res) => {
     res.status(500).json({ error: error.message });
   }
 };
+
+/**
+ * Utility functions
+ */
 
 const getCreateCartByUserId = async (id) => {
   const [cart, created] = await ShopCart.findOrCreate({
