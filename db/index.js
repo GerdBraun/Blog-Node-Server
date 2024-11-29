@@ -10,7 +10,7 @@ import ShopCartModel from "../models/ShopCart.js";
 import ShopCategoryModel from "../models/ShopCategory.js";
 import BridgeShopCartProductModel from "../models/BridgeShopCartProduct.js";
 // Create a new instance of Sequelize with the connection string
-const sequelize = new Sequelize(process.env.PG_URI);
+const sequelize = new Sequelize(process.env.PG_URI, {logging:false});
 
 // posts
 const User = UserModel(sequelize);
@@ -53,7 +53,7 @@ ShopCart.belongsToMany(ShopProduct,{ through: BridgeShopCartProduct } )
 ShopProduct.belongsToMany(ShopCart,{ through: BridgeShopCartProduct } )
 
 try {
-  await sequelize.sync({ force: false, logging: false });
+  await sequelize.sync({ force: false});
   console.log("Database is ready");
 } catch (error) {
   console.error("\x1b[31m%s\x1b[0m", error);
