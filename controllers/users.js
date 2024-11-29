@@ -1,11 +1,48 @@
 // controllers/users.js
-import {User} from "../db/index.js";
-import {Post} from "../db/index.js";
-import {Category} from "../db/index.js";
+import { where } from "sequelize";
+import {
+  User,
+  Post,
+  Category,
+  ShopProduct,
+  ShopCart,
+  BridgeShopCartProduct,
+  sequelize,
+} from "../db/index.js";
 
 export const getUsers = async (req, res) => {
   try {
-    const users = await User.findAll();
+    const users = await User.findAll({
+      include: [
+        {
+          model: Post,
+          required: false,
+          attributes: ["id", "title", "updatedAt"],
+        },
+        {
+          model: Category,
+          required: false,
+          attributes: ["id", "label"],
+        },
+        {
+          model: ShopCart,
+          required: false,
+          attributes: ["id"],
+          include: [
+            {
+              model: BridgeShopCartProduct,
+              attributes: ["amount"],
+              include: [
+                {
+                  model: ShopProduct,
+                  attributes: ["id", "name", "price"],
+                },
+              ],
+            },
+          ],
+        },
+      ],
+    });
     res.status(200).json(users);
   } catch (error) {
     res.status(500).json({ error: error.message });
@@ -33,23 +70,36 @@ export const getUserById = async (req, res) => {
     const {
       params: { id },
     } = req;
-    const user = await User.findByPk(id,{
-        include: [
+    const user = await User.findByPk(id, {
+      include: [
+        {
+          model: Post,
+          required: false,
+          attributes: ["id", "title", "updatedAt"],
+        },
+        {
+          model: Category,
+          required: false,
+          attributes: ["id", "label"],
+        },
+        {
+          model: ShopCart,
+          required: false,
+          attributes: ["id"],
+          include: [
             {
-                model:Post,
-                required: false,
-                attributes: [
-                    "id","title","updatedAt"
-                ],
+              model: BridgeShopCartProduct,
+              attributes: ["amount"],
+              include: [
+                {
+                  model: ShopProduct,
+                  attributes: ["id", "name", "price"],
+                },
+              ],
             },
-            {
-                model:Category,
-                required: false,
-                attributes: [
-                    "id","label"
-                ],
-            }
-        ]
+          ],
+        },
+      ],
     });
     if (!user) return res.status(404).json({ error: "User not found" });
     res.status(200).json(user);
