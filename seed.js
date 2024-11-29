@@ -36,7 +36,7 @@ const seedDB = async () => {
       email: "Emerson62@hotmail.com",
       password: "12345678",
       avatar: "https://i.pravatar.cc/150?img=2",
-      isAdmin: true,
+      isAdmin: false,
     },
     {
       firstName: "Demetrius",
