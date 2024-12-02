@@ -9,7 +9,7 @@ import {
 export const getCarts = async (req, res) => {
   try {
     const carts = await ShopCart.findAll({
-      attributes: ["id"],
+      attributes: ["id","updatedAt"],
       include: [
         { model: User, attributes: ["id", "firstName", "lastName", "avatar"] },
         {
@@ -41,7 +41,7 @@ export const getCartById = async (req, res) => {
   try {
     const carts = await ShopCart.findOne({
       where: { id: id },
-      attributes: ["id"],
+      attributes: ["id","updatedAt"],
       include: [
         { model: User, attributes: ["id", "firstName", "lastName", "avatar"] },
         {
