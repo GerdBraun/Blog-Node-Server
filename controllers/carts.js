@@ -9,7 +9,7 @@ import {
 export const getCarts = async (req, res) => {
   try {
     const carts = await ShopCart.findAll({
-      attributes: ["id"],
+      attributes: ["id","updatedAt"],
       include: [
         { model: User, attributes: ["id", "firstName", "lastName", "avatar"] },
         {
@@ -41,7 +41,7 @@ export const getCartById = async (req, res) => {
   try {
     const carts = await ShopCart.findOne({
       where: { id: id },
-      attributes: ["id"],
+      attributes: ["id","updatedAt"],
       include: [
         { model: User, attributes: ["id", "firstName", "lastName", "avatar"] },
         {
@@ -63,8 +63,6 @@ export const getCartById = async (req, res) => {
 };
 
 export const createCart = async (req, res) => {
-  //TODO: solve this
-
   try {
     const {
       body: { userId, productId, amount },
@@ -89,7 +87,7 @@ export const createCart = async (req, res) => {
     });
 
     if (existingBSCP) {
-      // TODO: add amount
+      // add amount
       const bscp = await BridgeShopCartProduct.update(
         {
           amount: amount + existingBSCP.amount,
@@ -102,12 +100,47 @@ export const createCart = async (req, res) => {
         }
       );
     } else {
-      // or add the prod
+      // add the prod
       const bscp = await BridgeShopCartProduct.create(prodToSave);
     }
 
     // return the cart
     res.status(201).json(cart);
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+};
+
+export const updateCart = async (req, res) => {
+  try {
+    const {
+      body: { cartId, productId, amount },
+    } = req;
+
+    if (amount === 0) {
+      await BridgeShopCartProduct.destroy({
+        where: {
+          ShopCartId: cartId,
+          ShopProductId: productId,
+        },
+      });
+    } else {
+      await BridgeShopCartProduct.update(
+        {
+          amount: amount
+        },
+        {
+          where: {
+            ShopCartId: cartId,
+            ShopProductId: productId,
+          },
+        }
+      );
+    }
+    const carts = await ShopCart.findOne({
+      where: { id: cartId },
+    });
+    res.status(200).json(carts);
   } catch (error) {
     res.status(500).json({ error: error.message });
   }

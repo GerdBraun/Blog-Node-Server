@@ -10,21 +10,21 @@ import ShopCartModel from "../models/ShopCart.js";
 import ShopCategoryModel from "../models/ShopCategory.js";
 import BridgeShopCartProductModel from "../models/BridgeShopCartProduct.js";
 // Create a new instance of Sequelize with the connection string
-const sequelize = new Sequelize(process.env.PG_URI);
+const sequelize = new Sequelize(process.env.PG_URI, {logging:false});
 
-// posts
+// posts models
 const User = UserModel(sequelize);
 const Post = PostModel(sequelize);
 const Category = CategoryModel(sequelize);
 const BridgePostCategory = BridgePostCategoryModel(sequelize);
 
-// shop
+// shop models
 const ShopCategory = ShopCategoryModel(sequelize);
 const ShopProduct = ShopProductModel(sequelize);
 const ShopCart = ShopCartModel(sequelize);
 const BridgeShopCartProduct = BridgeShopCartProductModel(sequelize);
 
-// posts
+// posts associations
 User.hasMany(Post, { foreignKey: "authorId" });
 User.hasMany(Category, { foreignKey: "authorId" });
 Post.belongsTo(User, { foreignKey: "authorId" });
@@ -37,14 +37,13 @@ Category.hasMany(BridgePostCategory, { foreignKey: "CategoryId" });
 Category.belongsToMany(Post, { through: BridgePostCategory });
 Post.belongsToMany(Category, { through: BridgePostCategory });
 
-// shop
+// shop associations
 User.belongsToMany(ShopProduct, { through: BridgeShopCartProduct });
 ShopProduct.belongsToMany(User, { through: BridgeShopCartProduct });
 
 BridgeShopCartProduct.belongsTo(User, { foreignKey: "id" });
 BridgeShopCartProduct.hasOne(ShopProduct, { foreignKey: "id" });
 BridgeShopCartProduct.hasOne(ShopCart, { foreignKey: "id" });
-// User.hasMany(BridgeShopCartProduct, { foreignKey: "UserId" });
 
 User.hasOne(ShopCart, { foreignKey: "UserId" });
 ShopCart.belongsTo(User, { foreignKey: "UserId" });
@@ -53,7 +52,7 @@ ShopCart.belongsToMany(ShopProduct,{ through: BridgeShopCartProduct } )
 ShopProduct.belongsToMany(ShopCart,{ through: BridgeShopCartProduct } )
 
 try {
-  await sequelize.sync({ force: false, logging: false });
+  await sequelize.sync({ force: false});
   console.log("Database is ready");
 } catch (error) {
   console.error("\x1b[31m%s\x1b[0m", error);
